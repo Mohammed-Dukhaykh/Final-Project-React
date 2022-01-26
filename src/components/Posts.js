@@ -6,86 +6,97 @@ import { RiUserFollowFill } from "react-icons/ri"
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt"
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove"
 import { Link } from "react-router-dom"
+import AddBoxIcon from "@mui/icons-material/AddBox"
+import "../PostsStyle.css"
+import { useState } from "react"
+import AddUserPostModal from "./AddUserPostModal"
+import Moment from "react-moment"
 
 function Posts() {
-  const { posts, follow, profile } = useContext(JobsContext)
+  const { posts, follow, profile, getOneProfile } = useContext(JobsContext)
+  const [show, setShow] = useState(false)
   if (!profile) return <h1>Loading ...</h1>
   const user = profile.followwnig.map(follow => follow._id)
-  console.log(user)
+  posts.sort((a, b) => new Date(b.date) - new Date(a.date))
+
   return (
     <>
-      <hr />
-      {posts.map(post => (
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <Card style={{ width: "26rem", margin: "20px" }}>
-            <Card.Header>
-              {post.ownerUser ? (
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
-                  <>
-                    {post.ownerUser._id.toString() != profile._id ? (
-                      <Link className="btn" to={`/user/${post.ownerUser._id}`}>
-                        <img
-                          class="rounded-circle"
-                          style={{ objectFit: "cover" , marginRight:"70px" }}
-                          width={50}
-                          height={50}
-                          src={post.ownerUser.avatar}
-                          data-holder-rendered="true"
-                         
-                        />{" "}
-                        {post.ownerUser.firstName} {post.ownerUser.lastName}{" "}
-                      </Link>
-                    ) : (
-                      <>
-                        <img
-                          class="rounded-circle"
-                          style={{ objectFit: "cover" }}
-                          width={50}
-                          height={50}
-                          src={post.ownerUser.avatar}
-                          data-holder-rendered="true"
-                        />{" "}
-                        {post.ownerUser.firstName} {post.ownerUser.lastName}
-                      </>
-                    )}
-                  </>
-                  {post.ownerUser._id.toString() != profile._id ? (
-                    <h5>
-                      {post.ownerUser && !user.includes(post.ownerUser._id) ? (
-                        <Button onClick={() => follow(post.ownerUser._id)} variant="light">
-                          <PersonAddAltIcon sx={{ fontSize: 23 }} />
-                        </Button>
-                      ) : (
-                        <Button onClick={() => follow(post.ownerUser._id)} variant="light">
-                          <PersonRemoveIcon sx={{ fontSize: 23 }} />
-                        </Button>
-                      )}
-                    </h5>
-                  ) : null}
-                </div>
-              ) : (
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
-                  <>
-                    <img
-                      class="rounded-circle"
-                      style={{ objectFit: "cover" }}
-                      width={50}
-                      height={50}
-                      src={post.ownerCompany.avatar}
-                      data-holder-rendered="true"
-                    />{" "}
-                    {post.ownerCompany.companyName}{" "}
-                  </>
-                </div>
-              )}
-            </Card.Header>
-            <Card.Img variant="top" src={post.photo} style={{ height: "250px" }} />
-            <Card.Body>
-              <ChatBubbleIcon /> <span>{post.description}</span>
-            </Card.Body>
-          </Card>
+      <section className="section-postt">
+        {" "}
+        <h1 className="name-post">Posts</h1>
+        <hr />
+        <div onClick={() => setShow(true)} style={{ textAlign: "center", marginBottom: "60px", cursor: "pointer" }}>
+          <h3 style={{ color: "#165da5" }}>
+            Add Post <AddBoxIcon />{" "}
+          </h3>
         </div>
-      ))}
+        <AddUserPostModal show={show} setShow={setShow} />
+        <div class="container-po">
+          {posts.map(post => (
+            <>
+              <div class="card-po">
+                <div class="card-header-po">
+                  <img src={post.photo} alt="" />
+                </div>
+                <div class="card-body-po">
+                  <span className="text-muted">
+                    <Moment format="HH:mm ,MM/dd">{post.date}</Moment>
+                  </span>
+                  {/* <br /> */}
+                  <p style={{fontSize:"17px"}}>{post.description}</p>
+
+                  {post.ownerUser ? (
+                    <div class="user-po">
+                      {post.ownerUser._id != profile._id ? (
+                        <>
+                          <Link
+                            onClick={() => getOneProfile(post.ownerUser._id)}
+                            className="btn"
+                            to={`/user/${post.ownerUser._id}`}
+                          >
+                            <img src={post.ownerUser.avatar} alt="" />
+                            <div class="user-info-po">
+                              <h6>
+                                {post.ownerUser.firstName} {post.ownerUser.lastName}
+                              </h6>
+                            </div>
+                          </Link>
+                          {!user.includes(post.ownerUser._id) ? (
+                            <button onClick={() => follow(post.ownerUser._id)} className="followw-btnn">
+                              Follow
+                            </button>
+                          ) : (
+                            <button onClick={() => follow(post.ownerUser._id)} className="unfolloww-btnn">
+                              Unfollow
+                            </button>
+                          )}
+                        </>
+                      ) : (
+                        <Link className="btn" to={`/profile`}>
+                          <img src={post.ownerUser.avatar} alt="" />
+                          <div class="user-info-po">
+                            <h6>
+                              {post.ownerUser.firstName} {post.ownerUser.lastName}
+                            </h6>
+                          </div>
+                        </Link>
+                      )}
+                    </div>
+                  ) : (
+                    <div class="user-po">
+                      <img src={post.ownerCompany.avatar} alt="" />
+                      <div class="user-info-po">
+                        <h6>{post.ownerCompany.companyName}</h6>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </>
+          ))}
+          <br />
+        </div>
+      </section>
     </>
   )
 }

@@ -4,11 +4,12 @@ import JobsContext from "../utils/JobsContext"
 
 function UsersApplyViewModel(props) {
   const { show, setShow, user } = props
-  const {changeProgress} = useContext(JobsContext)
+  const { changeProgress } = useContext(JobsContext)
+  console.log(user)
   return (
     <>
       <Modal show={show} onHide={() => setShow(false)}>
-        <Form className="mt-5" onSubmit={e => changeProgress(e, user.jobId, user._id, )}>
+        <Form className="mt-5" onSubmit={e => changeProgress(e, user.jobId, user._id)}>
           <Modal.Header closeButton>
             <Modal.Title>View User Apply</Modal.Title>
           </Modal.Header>
@@ -27,16 +28,27 @@ function UsersApplyViewModel(props) {
                 <strong>Phone Number :</strong> {user.phoneNumber}
               </ListGroup.Item>
               <ListGroup.Item>
-                <strong>ResumeCv :</strong> {user.ResumeCv}
+                <strong>ResumeCv : </strong>
+                <a href={user.ResumeCv} target="_blank">
+                  {user.firstName}/{user.lastName}/resume
+                </a>
               </ListGroup.Item>
               <ListGroup.Item>
-                <strong>Skills :</strong> 
+                <strong>Skills :</strong>
                 <ul>
                   {user.skills.map(skill => (
                     <li>{skill.skill}</li>
                   ))}
-                  
                 </ul>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <h4>Qustions:</h4>
+                {user.answers.map(answer => (
+                  <>
+                    <strong>Q : </strong> <h6 style={{ display: "inline" }}>{answer.question.question}</h6> <br />
+                    <strong>A : </strong> <h6 style={{ display: "inline" }}>{answer.answer}</h6> <br />
+                  </>
+                ))}
               </ListGroup.Item>
               <ListGroup.Item>
                 <strong>Job Progress :</strong>
@@ -58,13 +70,13 @@ function UsersApplyViewModel(props) {
             </ListGroup>
           </Modal.Body>
           <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShow(false)}>
-            Close
-          </Button>
-          <Button variant="success" type="submit" onClick={() => setShow(false)}>
-            Confirm Edit
-          </Button>
-        </Modal.Footer>
+            <Button variant="secondary" onClick={() => setShow(false)}>
+              Close
+            </Button>
+            <Button variant="success" type="submit" onClick={() => setShow(false)}>
+              Confirm Edit
+            </Button>
+          </Modal.Footer>
         </Form>
       </Modal>
     </>

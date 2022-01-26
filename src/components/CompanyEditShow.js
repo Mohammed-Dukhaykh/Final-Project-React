@@ -24,7 +24,7 @@ function CompanyEditShow(props) {
             </FloatingLabel>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Job Poster</Form.Label>
-              <Form.Control type="url" placeholder="Enter Job Poster" name="poster" defaultValue={job.poster} />
+              <Form.Control type="file" placeholder="Enter Job Poster" accept="image/png , image/jepg" name="poster" />
             </Form.Group>
             <Modal.Footer>
               <Button variant="secondary" onClick={() => setShow(false)}>

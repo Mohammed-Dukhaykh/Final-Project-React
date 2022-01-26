@@ -4,50 +4,49 @@ import NavbarItem from "../components/Navbar"
 import JobsContext from "../utils/JobsContext"
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt"
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove"
+import { Link } from "react-router-dom"
+import Moment from "react-moment"
 function ProfileWatch() {
-    const {profile , follow} = useContext(JobsContext)
-    if (!profile) return null
+  const { profile, follow } = useContext(JobsContext)
+  if (!profile) return null
+  const followFound = profile.followwnig.map(followId => followId._id)
+  let profileFound = profile.profileWatch.map(watch => watch)
+  if (profileFound) profileFound.sort((a, b) => new Date(b.date) - new Date(a.date))
   return (
     <>
       <NavbarItem />
+      <div class="div-follow">
+        {profileFound.map(followObject => (
+          <figure class="snip1336">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample87.jpg" alt="sample87" />
+            <figcaption>
+              <img src={followObject.visitor.avatar} alt="profile-sample4" class="profile" />
+              <h2>
+                {followObject.visitor.firstName} {followObject.visitor.lastName}
+              </h2>
+              <p>{followObject.summary}</p>
+              {followFound.includes(followObject.visitor._id) ? (
+                <button class="follow" onClick={() => follow(followObject.visitor._id)}>
+                  <h6>unfollow</h6>
+                </button>
+              ) : (
+                <button class="follow" onClick={() => follow(followObject.visitor._id)}>
+                  <h6>follow</h6>
+                </button>
+              )}
 
-      <Row>
-        {profile.profileWatch.map(followObject => (
-          <Card
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "35rem",
-            }}
-          >
-              
-            <Col style={{ display: "flex", alignItems: "center" }}>
-              <img
-                style={{ objectFit: "contain", margin: "20px", marginRight: "100px", justifyContent: "space-around" }}
-                width={100}
-                height={100}
-                src={followObject.visitor.avatar}
-                data-holder-rendered="true"
-                class="rounded-circle"
-              />
-              <h4>
-                <strong>
-                  {followObject.visitor.firstName} {followObject.visitor.lastName}
-                </strong>
-              </h4>
-              <Button style={{ marginLeft: "20px" }} onClick={() => follow(followObject.visitor._id)} variant="light">
-                {profile.followwnig.find(user => user._id == followObject.visitor._id) ? (
-                  <PersonAddAltIcon sx={{ fontSize: 23 }} />
-                ) : (
-                  <PersonRemoveIcon sx={{ fontSize: 23 }} />
-                )}
-              </Button>
-            </Col>
-          </Card>
+              <Link style={{ border: "none" }} className="nav-link" to={`/user/${followObject.visitor._id}`}>
+                <button class="info">
+                  <h6>Profile</h6>
+                </button>
+              </Link>
+            </figcaption>
+            <p style={{ textAlign: "center", marginBottom: "20px" }}>
+              (<Moment format=" H:mm   , MM/DD   ">{followObject.date}</Moment>)
+            </p>
+          </figure>
         ))}
-      </Row>
+      </div>
     </>
   )
 }

@@ -29,7 +29,7 @@ function HomeProfile() {
         </span>
         <hr />
         <span>
-          Following <PersonIcon /> : {profile.followers.length}
+          Followers <PersonIcon /> : {profile.followers.length}
         </span>
         <hr />
         <span>

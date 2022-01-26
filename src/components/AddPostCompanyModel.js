@@ -18,7 +18,7 @@ function AddPostCompanyModel(props) {
           </FloatingLabel>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>post Poster</Form.Label>
-            <Form.Control type="url" placeholder="Enter post Poster" name="photo" />
+            <Form.Control type="file" placeholder="Enter post Poster" name="photo"/>
           </Form.Group>
           <Modal.Footer>
             <Button variant="secondary" onClick={() => setShow(false)}>

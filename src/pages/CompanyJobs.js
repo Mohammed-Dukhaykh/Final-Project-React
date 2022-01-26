@@ -13,7 +13,9 @@ function CompanyJobs() {
   const { company, profile } = useContext(JobsContext)
   if (!profile) return null
   let myCompany = company.find(oneCompany => oneCompany._id === profile.Work._id)
-//    myCompany.jobs.sort((a, b) => b.dateCreated - a.dateCreated)
+  let companyJob
+  if (myCompany) companyJob = myCompany.jobs.sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated))
+  //    myCompany.jobs.sort((a, b) => b.dateCreated - a.dateCreated)
   return (
     <>
       {" "}
@@ -36,16 +38,16 @@ function CompanyJobs() {
               </tr>
             </thead>
             {myCompany.jobs ? (
-               <tbody>
-              {myCompany.jobs.map(job => (
-                <>
-                  <CompanyJobsCell job={job} key={job._id} />
-                </>
-              ))}
-            </tbody>) : null }
-           
+              <tbody>
+                {companyJob.map(job => (
+                  <>
+                    <CompanyJobsCell jobId={job} job={job} key={job._id} />
+                  </>
+                ))}
+              </tbody>
+            ) : null}
           </Table>
-          <hr/>
+          <hr />
         </Box>
       </Box>
     </>

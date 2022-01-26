@@ -1,6 +1,5 @@
 import { useContext } from "react"
-import { Button, Card, Col, Row } from "react-bootstrap"
-import "../App.css"
+import { Button, Card, Col, Row, DropdownButton, Dropdown } from "react-bootstrap"
 import NavbarItem from "../components/Navbar"
 import JobsContext from "../utils/JobsContext"
 import AddIcon from "@mui/icons-material/Add"
@@ -20,10 +19,14 @@ import AddInterestModel from "../components/AddInterestModel"
 import AddSummaryModel from "../components/AddSummary"
 import EditIcon from "@mui/icons-material/Edit"
 import EditSummaryModel from "../components/EditSummaryModel"
-import { display } from "@mui/system"
+import "../ProfileStyle.css"
 import { Link } from "react-router-dom"
+import ProfilePostCell from "../components/ProfilePostCell"
+import EditProfileModal from "../components/EditProfileModal"
+// import "../ProfileStyle.css"
 function Profile() {
-  const { profile } = useContext(JobsContext)
+  const { profile, addResume } = useContext(JobsContext)
+
   const [show, setShow] = useState(false)
   const [experienceShow, setExperienceShow] = useState(false)
   const [skillsShow, setSkillsShow] = useState(false)
@@ -31,13 +34,15 @@ function Profile() {
   const [interestShow, setInterestShow] = useState(false)
   const [summaryShow, setSummaryShow] = useState(false)
   const [summaryEditShow, setEditSummaryShow] = useState(false)
+  const [userProfileShow, setProfileShow] = useState(false)
+  if (!profile) return null
 
-  if (!profile) return <h1>Loading ...</h1>
   return (
     <>
       <NavbarItem />
-      <div style={{ display: "flex", justifyContent: "center", gap: "50px", backgroundColor: "" }}>
-        <div>
+      <section class="h-100 gradient-custom-2 m-5" style={{ display: "flex" }}>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          {" "}
           <img
             style={{ objectFit: "contain", margin: "20px" }}
             width={300}
@@ -45,179 +50,235 @@ function Profile() {
             src={profile.avatar}
             data-holder-rendered="true"
           />
+          <button
+            style={{
+              borderRadius: "7px",
+              border: "none",
+              width: "100px",
+              padding: "8px",
+              marginLeft: "120px",
+              backgroundColor: "white",
+            }}
+            onClick={() => setProfileShow(true)}
+          >
+            Edit Profile
+          </button>
+          <EditProfileModal show={userProfileShow} setShow={setProfileShow} profile={profile} />
         </div>
-        <div style={{ margin: "20px" }}>
-          <h3>
-            {profile.firstName} {profile.lastName}
-          </h3>
-          <p>{profile.email}</p>
+        <center>
+          <div style={{ marginLeft: "20px" }}>
+            <h2 style={{ letterSpacing: "3px" }}>
+              <strong>
+                {profile.firstName} {profile.lastName}{" "}
+              </strong>
+            </h2>
+            <p style={{ width: "300px" }}>{profile.summary}</p>
+            {profile.Work ? (
+              <>
+                <h6 style={{ display: "inline" }}>Work on </h6>
+                <img
+                  style={{ objectFit: "contain", margin: "20px" }}
+                  width={50}
+                  height={50}
+                  src={profile.Work.avatar}
+                  data-holder-rendered="true"
+                  class="rounded-circle"
+                />
 
-          {profile.Work ? (
-            <>
-              <h3 style={{ display: "inline" }}>Work :</h3>
-              <img
-                style={{ objectFit: "contain", margin: "20px" }}
-                width={50}
-                height={50}
-                src={profile.Work.avatar}
-                data-holder-rendered="true"
-                class="rounded-circle"
-              />
+                <span>
+                  <strong>{profile.Work.companyName}</strong>
+                </span>
+              </>
+            ) : null}
+            {!profile.Resume ? (
+              <div>
+                <form onSubmit={addResume}>
+                  <input className="resume-upload" type="file" accept="application/pdf" name="resume" />
+                  <button type="submit" style={{ cursor: "pointer", display: "inline", border: "none", width: "90px" }}>
+                    Add
+                  </button>
+                </form>
+              </div>
+            ) : (
+              <div>
+                <form onSubmit={addResume}>
+                  <input className="resume-upload-edit" type="file" accept="application/pdf" name="resume" />
+                  <button type="submit" style={{ cursor: "pointer", display: "inline", border: "none", width: "90px" }}>
+                    Confirm
+                  </button>
+                </form>
+                <br />
+                <div className="img-resume">
+                  <a href={profile.Resume} target="_blank">
+                    {" "}
+                    <img
+                      src="https://scontent.fmed1-1.fna.fbcdn.net/v/t39.30808-6/272127238_2146471475505744_5581813376169249917_n.jpg?_nc_cat=106&ccb=1-5&_nc_sid=730e14&_nc_ohc=DqVdYSNJhhIAX8-htfD&_nc_ht=scontent.fmed1-1.fna&oh=00_AT9Z3njWAiFtBzbfonsYM6HI-xzDMnPI51qflZ0rEf9B3A&oe=61F32BEA"
+                      alt=""
+                      height="70px"
+                      width="60px"
+                    />
+                  </a>
+                </div>
+              </div>
+            )}
+          </div>
+          <div>
+            {" "}
+            <Link className="btn" to="/following">
+              <div style={{ marginTop: "30px" }}>
+                <h5>Following </h5>
+                <p>{profile.followwnig.length}</p>
+              </div>
+            </Link>
+            <Link className="btn" to="/followers">
+              <div style={{ marginTop: "30px" }}>
+                <h5>Followers </h5>
+                <p>{profile.followers.length}</p>
+              </div>
+            </Link>
+            <Link className="btn" to="/profileWatch">
+              <div style={{ marginTop: "30px" }}>
+                <h5>Profile Watch </h5>
+                <p>{profile.profileWatch.length}</p>
+              </div>
+            </Link>
+            <Link className="btn" to="/jobInterest">
+              <div style={{ marginTop: "30px" }}>
+                <h5>Jobs Interest </h5>
+                <p>{profile.jobInterest.length}</p>
+              </div>
+            </Link>
+            <Link className="btn" to="/jobsApply">
+              <div style={{ marginTop: "30px" }}>
+                <h5>Jobs Apply </h5>
+                <p>{profile.JobsApply.length}</p>
+              </div>
+            </Link>
+          </div>
+          <br />
+          <hr />
+          <div>
+            <h3>About Me</h3>
+            <p>{profile.summary}</p>
+            {!profile.summary ? (
+              <Button onClick={() => setSummaryShow(true)} variant="light">
+                <span>
+                  <AddIcon fontSize="20" />
+                </span>
+              </Button>
+            ) : (
+              <Button onClick={() => setEditSummaryShow(true)} variant="light">
+                <span>
+                  <EditIcon fontSize="10px" />
+                </span>
+              </Button>
+            )}
+          </div>
+          <AddSummaryModel show={summaryShow} setShow={setSummaryShow} />
+          <EditSummaryModel show={summaryEditShow} setShow={setEditSummaryShow} summaryProfile={profile.summary} />
+          <br />
+          <hr />
+          <div>
+            <h3>Education</h3>
+            <Button onClick={() => setShow(true)} variant="light">
               <span>
-                <strong>{profile.Work.companyName}</strong>
-              </span>
-            </>
-          ) : null}
-        </div>
-
-        <hr />
-      </div>
-      <hr />
-      <div style={{ display: "flex", justifyContent: "center", gap: "50px" }}>
-        <Link className="btn" to="/following">
-          <div style={{ textAlign: "center" }}>
-            <h5>Following </h5>
-            <p>{profile.followwnig.length}</p>
-          </div>
-        </Link>
-        <Link className="btn" to="/followers">
-          <div style={{ textAlign: "center" }}>
-            <h5>Followers </h5>
-            <p>{profile.followers.length}</p>
-          </div>
-        </Link>
-        <Link className="btn" to="/profileWatch">
-          <div style={{ textAlign: "center" }}>
-            <h5>Profile Watch </h5>
-            <p>{profile.profileWatch.length}</p>
-          </div>
-        </Link>
-        <Link className="btn" to="/jobInterest">
-          <div style={{ textAlign: "center" }}>
-            <h5>Jobs Interest </h5>
-            <p>{profile.jobInterest.length}</p>
-          </div>
-        </Link>
-        <Link className="btn" to="/jobsApply">
-          <div style={{ textAlign: "center" }}>
-            <h5>Jobs Apply </h5>
-            <p>{profile.JobsApply.length}</p>
-          </div>
-        </Link>
-        <Link className="btn" to="/profilePosts">
-          <div style={{ textAlign: "center" }}>
-            <h5>Posts </h5>
-            <p>{profile.posts.length}</p>
-          </div>
-        </Link>
-      </div>
-
-      <Card>
-        <Card.Header style={{ textAlign: "center", backgroundColor: "#708090", color: "white" }}>
-          <h3>Summary</h3>{" "}
-          {!profile.summary ? (
-            <Button onClick={() => setSummaryShow(true)} variant="light">
-              <span>
-                <AddIcon />
+                <AddIcon fontSize="10px" />
               </span>
             </Button>
-          ) : (
-            <Button onClick={() => setEditSummaryShow(true)} variant="light">
+            <br />
+            {profile.Education.map(education => (
+              <EducationCell educationItem={education} />
+            ))}
+          </div>
+
+          <AddEducationModel show={show} setShow={setShow} />
+          <br />
+          <hr />
+          <div>
+            <h3>Experience</h3>
+            <Button onClick={() => setExperienceShow(true)} variant="light">
               <span>
-                <EditIcon />
+                <AddIcon fontSize="10px" />
               </span>
             </Button>
-          )}
-        </Card.Header>
-
-        <>
-          <p style={{ textAlign: "center" }}>
-            <strong>{profile.summary}</strong>
-          </p>
-        </>
-      </Card>
-      <AddSummaryModel show={summaryShow} setShow={setSummaryShow} />
-      <EditSummaryModel show={summaryEditShow} setShow={setEditSummaryShow} summaryProfile={profile.summary} />
-      <Card>
-        <Card.Header style={{ textAlign: "center", backgroundColor: "#708090", color: "white" }}>
-          <h3>Education</h3>{" "}
-          <Button onClick={() => setShow(true)} variant="light">
-            <span>
-              <AddIcon />
-            </span>
-          </Button>
-        </Card.Header>
-        {profile.Education.map(education => (
-          <>
-            <EducationCell education={education} key={education._id} />
-          </>
-        ))}
-      </Card>
-      <AddEducationModel show={show} setShow={setShow} />
-      <Card>
-        <Card.Header style={{ textAlign: "center", backgroundColor: "#708090", color: "white" }}>
-          <h3>Experience</h3>{" "}
-          <Button onClick={() => setExperienceShow(true)} variant="light">
-            <span>
-              <AddIcon />
-            </span>
-          </Button>
-        </Card.Header>
-        {profile.Experience.map(experience => (
-          <>
-            <ExperienceCell experience={experience} key={experience._id} />
-          </>
-        ))}
-      </Card>
-      <AddExperienceModel show={experienceShow} setShow={setExperienceShow} />
-      <Card>
-        <Card.Header style={{ textAlign: "center", backgroundColor: "#708090", color: "white" }}>
-          <h3>Skills</h3>{" "}
+            <br />
+            {profile.Experience.map(experience => (
+              <>
+                <ExperienceCell experience={experience} key={experience._id} />
+              </>
+            ))}
+          </div>
+          <AddExperienceModel show={experienceShow} setShow={setExperienceShow} />
+          <br />
+          <hr />
+          <h3>Skills</h3>
           <Button onClick={() => setSkillsShow(true)} variant="light">
             <span>
-              <AddIcon />
+              <AddIcon fontSize="10px" />
             </span>
           </Button>
-        </Card.Header>
-        {profile.skills.map(skill => (
-          <>
-            <SkillsCell skill={skill} key={skill._id} />
-          </>
-        ))}
-      </Card>
-      <AddSkillsModel show={skillsShow} setShow={setSkillsShow} />
-      <Card>
-        <Card.Header style={{ textAlign: "center", backgroundColor: "#708090", color: "white" }}>
-          <h3>Certificates</h3>{" "}
-          <Button onClick={() => setCertificatesShow(true)} variant="light">
-            <span>
-              <AddIcon />
-            </span>
-          </Button>
-        </Card.Header>
-        {profile.Certificates.map(Certificate => (
-          <>
-            <CertificatesCell Certificate={Certificate} key={Certificate._id} />
-          </>
-        ))}
-        <AddCertificatesModel show={certificatesShow} setShow={setCertificatesShow} />
-      </Card>
-      <Card>
-        <Card.Header style={{ textAlign: "center", backgroundColor: "#708090", color: "white" }}>
-          <h3>Interesting</h3>{" "}
-          <Button onClick={() => setInterestShow(true)} variant="light">
-            <span>
-              <AddIcon />
-            </span>
-          </Button>
-        </Card.Header>
-        {profile.interesting.map(interest => (
-          <>
-            <InterestingCell interest={interest} key={interest._id} />
-          </>
-        ))}
-      </Card>
-      <AddInterestModel show={interestShow} setShow={setInterestShow} />
+          <hr />
+          {profile.skills.map(skill => (
+            <>
+              <SkillsCell skill={skill} key={skill._id} />
+            </>
+          ))}
+
+          <AddSkillsModel show={skillsShow} setShow={setSkillsShow} />
+          <br />
+          <hr />
+          <div>
+            <h3>Certificates</h3>
+            <Button onClick={() => setCertificatesShow(true)} variant="light">
+              <span>
+                <AddIcon fontSize="10px" />
+              </span>
+            </Button>
+            <hr />
+            {profile.Certificates.map(Certificate => (
+              <>
+                <CertificatesCell Certificate={Certificate} key={Certificate._id} />
+              </>
+            ))}
+            <AddCertificatesModel show={certificatesShow} setShow={setCertificatesShow} />
+          </div>
+          <hr />
+          <br />
+          <div>
+            <h3>Interestings</h3>
+
+            <Button onClick={() => setInterestShow(true)} variant="light">
+              <span>
+                <AddIcon fontSize="10px" />
+              </span>
+            </Button>
+            <hr />
+            {profile.interesting.map(interest => (
+              <>
+                <InterestingCell interest={interest} key={interest._id} />
+              </>
+            ))}
+            <AddInterestModel show={interestShow} setShow={setInterestShow} />
+          </div>
+        </center>
+      </section>
+      <section
+        class="h-100 gradient-custom-2 m-5"
+        style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}
+      >
+        <center>
+          <h3>Posts</h3>
+          <br />
+          <hr />
+        </center>
+        <div style={{ display: "flex" }}>
+          {profile.posts.map(post => (
+            <>
+              <ProfilePostCell post={post} key={post._id} />
+            </>
+          ))}
+        </div>
+      </section>
     </>
   )
 }

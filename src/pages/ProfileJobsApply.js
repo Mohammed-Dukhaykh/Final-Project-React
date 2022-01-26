@@ -10,20 +10,24 @@ function ProfileJobsApply() {
   return (
     <>
       <NavbarItem />
+      <section>
       <Container>
+        <Card style={{ marginTop: "40px" }}>
         {profile.JobsApply.map(job => (
           <Row style={{ margin: "30px" }}>
-            <Col>
-              <img src={job.jobId.poster} class="img-fluid rounded mb-4 mb-lg-0" />
-            </Col>
-            <Col style={{ display: "flex", flexDirection: "column", justifyContent: "space-around" }}>
+          
+              <img src={job.jobId.poster} style={{ width: "400px", height: "350px", borderRadius: "10px" }} />
+           
+            <Col  md={7}  style={{ display: "flex", flexDirection: "column", justifyContent: "space-around" }}>
               <h1>{job.jobId.title}</h1>
               <p>{job.jobId.description}</p>
               <h5>progress : {job.progress} </h5>
             </Col>
           </Row>
         ))}
+        </Card>
       </Container>
+      </section>
     </>
   )
 }

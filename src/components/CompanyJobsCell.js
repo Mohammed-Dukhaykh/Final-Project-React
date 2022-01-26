@@ -7,7 +7,7 @@ import CompanyViewJobs from "./CompanyiewJobs"
 
 function CompanyJobsCell(props) {
   const { companyJob } = useParams()
-  const { job } = props
+  const { job  } = props
   const [viewShow, setViewShow] = useState(false)
   const [editShow, setEditShow] = useState(false)
   const { deleteJob } = useContext(JobsContext)

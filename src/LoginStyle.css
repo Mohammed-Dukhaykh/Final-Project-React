@@ -1,0 +1,119 @@
+.owner-div {
+    background: rgb(200, 198, 199);
+    background: linear-gradient(90deg, rgba(200, 198, 199, 1) 0%, rgba(222, 156, 217, 1) 100%);
+    min-height: 100vh !important
+}
+
+.cont {
+    /* overflow: hidden; */
+    position: relative;
+    width: 900px;
+    height: 550px;
+    background: #fff;
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+    margin-left: 250px;
+
+
+
+
+}
+
+.form-login {
+    position: relative;
+    width: 640px;
+    height: 100%;
+    padding: 50px 130px;
+   
+
+}
+
+.h2-login {
+    width: 100%;
+    font-size: 30px;
+    /* margin-right: 50px; */
+    padding-left: 130px;
+}
+
+.label-login {
+    display: block;
+    width: 260px;
+    margin: 25px auto 0;
+    text-align: center;
+}
+
+.label-login span {
+    font-size: 14px;
+    font-weight: 600;
+    color: #505f75;
+    text-transform: uppercase;
+    padding: 30px;
+}
+
+.inp-login {
+    display: block;
+    width: 100%;
+    margin-top: 5px;
+    font-size: 16px;
+    margin-bottom: 0px;
+    border-bottom: 1px solid rgba(109, 93, 93, 0.4);
+    text-align: center;
+    font-family: 'Nunito', sans-serif;
+    border: none;
+    outline: none;
+    background: none;
+    margin-right: 40px;
+}
+
+.bttn-login {
+    display: block;
+    margin: 0 auto;
+    width: 260px;
+    height: 36px;
+    border-radius: 30px;
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+}
+
+.submit-login {
+    margin-top: 40px;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-family: 'Nunito', sans-serif;
+    background: -webkit-linear-gradient(left, #7579ff, #b224ef);
+    display: block;
+    margin-top: 0 auto;
+    margin-left: 60px;
+    width: 260px;
+    height: 36px;
+    border-radius: 30px;
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+
+}
+
+.submit-login:hover {
+    background: -webkit-linear-gradient(left, #b224ef, #7579ff);
+}
+
+.img-login {
+    content: '';
+    position: absolute;
+    right: 40px;
+    top: 40px;
+    width: 400;
+    height: 100%;
+    /* background-image: url("https://raw.githubusercontent.com/abo-elnoUr/public-assets/master/bg_login.jpg"); */
+    background-size: cover;
+}
+
+.create-account {
+    margin-left: 120px;
+}

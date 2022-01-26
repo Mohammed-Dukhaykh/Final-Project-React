@@ -1,0 +1,122 @@
+/* .section2-header {
+
+    height: 100%;
+    width: 800px;
+    background: #a3bded;
+    background: -webkit-linear-gradient(-20deg, #a3bded 0%, hsl(214, 46%, 60%) 100%);
+    background: -moz-linear-gradient(-20deg, #a3bded 0%, #6991c7 100%);
+    background: linear-gradient(-20deg, #a3bded 0%, #6991c7 100%);
+
+} */
+/* $primary: #f5f4f6; //background
+$secondary: #28262c; //black
+$tertiary: #ac90d0; //light-purple
+$accent: #7f54b3; //purple
+$white: #fff;
+
+$bp-tablet: 37.5em; //600px
+$bp-desktop: 56.25em; //900px
+$bp-lg-desktop: 75em; //1200px */
+
+/* *,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+} */
+
+/* html {
+    box-sizing: border-box;
+    font-size: 50%;
+
+    @media only screen and (min-width: $bp-tablet) {
+        font-size: 56.25%;
+    }
+
+    @media only screen and (min-width: $bp-desktop) {
+        font-size: 62.5%;
+    }
+} */
+
+.div-header1 {
+    font-family: "Poppins", sans-serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: white;
+    background: #f5f4f6;
+}
+
+header {
+    padding: 0 2rem;
+
+    min-height: 100vh;
+    position: relative;
+
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+        url("https://images.pexels.com/photos/5676679/pexels-photo-5676679.jpeg?cs=srgb&dl=pexels-ivan-samkov-5676679.jpg&fm=jpg");
+    background-size: cover;
+}
+
+
+
+.hero {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+
+.__heading {
+    font-size: 5.2rem;
+    font-weight: 600;
+    line-height: 1.05;
+    margin-bottom: 3.2rem;
+}
+
+.--highlight {
+    font-weight: 200;
+}
+
+.__content {
+    font-size: 2rem;
+    line-height: 1.6;
+}
+
+.__btn {
+    font-size: 2rem;
+    font-weight: 600;
+    background-color: #7f54b3;
+    color: white;
+    outline: none;
+    border: none;
+    border-radius: 0.9rem;
+    padding: 1.6rem 3.2rem;
+    margin-top: 4.8rem;
+    cursor: pointer;
+}
+.hero__content {
+    width: 600px;
+    word-wrap: break-word;
+    font-size: 19px;
+}
+.hero__btn {
+    border: none;
+    background-color: white;
+    border-radius: 8px;
+    padding: 10px 30px;
+    margin-left: 40px;
+    margin-top: 60px;
+    font-size: 20px;
+}
+.hero__heading {
+    letter-spacing: 3px;
+    width: 900px;
+    margin-bottom: 40px;
+    font-size: 70px;
+}
+.img-logosite {
+    display: flex;
+    justify-content: center;
+}
+

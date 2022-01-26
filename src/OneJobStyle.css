@@ -1,0 +1,27 @@
+.card-job {
+    background:  rgb(200, 198, 199) linear-gradient(90deg, rgba(200, 198, 199, 1) 0%, rgba(255, 255, 255, 1) 100%);
+}
+
+.div-card {
+    border-radius: 10px;
+    /* 5px rounded corners */
+    width: 70rem;
+    margin-top: 100px;
+}
+.btn-apply {
+    background-color: transparent;
+    border: 1px solid #3333ff;
+    color: #3333ff;
+    border-radius: 4px;
+    margin-top: 20px;
+    margin-right: 10px;
+}
+.btn-apply1 {
+    background-color: transparent;
+    border: 1px solid #3333ff;
+    color: #3333ff;
+    border-radius: 4px;
+    margin-top: 20px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+}

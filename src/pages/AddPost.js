@@ -8,23 +8,7 @@ function AddPost() {
   return (
     <>
       <NavbarItem />
-      <h1 style={{ textAlign: "center", margin: "40px" }}>Add Post</h1>
-      <hr />
-      <Container>
-        <Form onSubmit={profileAddPost}>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Photo</Form.Label>
-            <Form.Control type="url" name="photo" />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-            <Form.Label>Description</Form.Label>
-            <Form.Control as="textarea" rows={3} name="description" />
-          </Form.Group>
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form>
-      </Container>
+    
     </>
   )
 }

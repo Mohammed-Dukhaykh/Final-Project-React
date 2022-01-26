@@ -1,0 +1,36 @@
+.section-signup {
+    /* background: rgb(200,198,199);
+    background: linear-gradient(90deg, rgba(200,198,199,1) 0%, rgba(161,156,222,1) 100%); */
+    background: rgb(166,170,171);
+    background: linear-gradient(90deg, rgba(166,170,171,1) 100%, rgba(245,245,255,1) 100%, rgba(255,255,255,1) 100%, rgba(232,234,237,1) 100%, rgba(19,26,78,1) 100%, rgba(17,38,129,1) 100%);
+    
+    min-height: 100vh ;
+}
+.div-container {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    width: 900px;
+    height: 600px;
+    margin-left: 190px;
+    gap: 40px;
+}
+.form-sign {
+    /* background-color: violet; */
+    height: 100%;
+    width: 500px;
+    /* background: rgb(200,198,199);
+    background: linear-gradient(90deg, rgba(200,198,199,1) 0%, rgba(166,182,186,1) 100%); */
+    background-color: white;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    /* opacity: 0.7; */
+    text-align: center;
+}
+.h2-login {
+    opacity: 5 ;
+    color: white;
+  }
+  
+  

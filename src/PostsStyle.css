@@ -1,0 +1,113 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
+
+
+.container-po {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  width: 940px;
+  margin: auto;
+}
+.name-post {
+    text-align: center;
+    font-weight: bolder;
+    letter-spacing: 3px;
+    font-size: 60px;
+    color: #135699;
+    
+    
+}
+.card-po {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 400px;
+}
+.card-header-po img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  background-position: center;
+}
+.card-body-po {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 20px;
+  min-height: 250px;
+}
+/* .tag {
+  background-color: #ccc;
+  color: #fff;
+  border-radius: 50px;
+  font-size: 12px;
+  margin: 0;
+  padding: 2px 10px;
+  text-transform: uppercase;
+} */
+/* .tag-teal {
+  background-color: #92d4e4;
+}
+.tag-purple {
+  background-color: #3d1d94;
+}
+.tag-pink {
+  background-color: #c62bcd;
+} */
+.card-body-po h4 {
+  margin: 10px 0;
+}
+.card-body-po p {
+  font-size: 14px;
+  margin: 0 0 100px 0;
+  font-weight: 500;
+  color: rgb(70, 68, 68);
+}
+.user-po {
+  display: flex;
+  margin-top: auto;
+  flex-direction: column;
+  align-items: center;
+}
+.user-po img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+  margin-bottom: 6px;
+}
+.user-info-po h5 {
+  margin: 0;
+}
+.user-info-po small {
+  color: #888785;
+}
+.followw-btnn {
+    color: #3399FF;
+    font-family: "Helvetica";
+    font-size: 10pt;
+    background-color: #ffffff;
+    border: 1px solid;
+    border-color: #3399FF;
+    border-radius: 3px;
+    width: 85px;
+    height: 30px;
+    cursor: hand;		    
+}
+.unfolloww-btnn {
+    color: #ff333d;
+    font-family: "Helvetica";
+    font-size: 10pt;
+    background-color: #ffffff;
+    border: 1px solid;
+    border-color: #ff333d;
+    border-radius: 3px;
+    width: 85px;
+    height: 30px;
+    cursor: hand;	
+}
+.section-postt {
+  background-color: rgb(226, 221, 221);
+}

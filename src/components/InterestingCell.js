@@ -1,25 +1,24 @@
 import { useState } from "react"
 import { useContext } from "react"
-import { ListGroup , Card , Button  } from "react-bootstrap"
+import { ListGroup, Card, Button } from "react-bootstrap"
+import { useParams } from "react-router-dom"
 import JobsContext from "../utils/JobsContext"
+import DeleteIcon from "@mui/icons-material/Delete"
 
 function InterestingCell(props) {
-    const {interest} = props
-    const {deleteInterest} = useContext(JobsContext)
-    const [show , setShow] = useState(false)
+  const { interest } = props
+  const { deleteInterest, profile } = useContext(JobsContext)
+  if (!profile) return null
   return (
     <>
-      <ListGroup as="ul">
-        <ListGroup.Item as="li" style={{ textAlign: "center" }}>
-          <div>
-            <div className="fw-bold">{interest.name}</div>
-          </div>
-        </ListGroup.Item>
-      </ListGroup>
+      <Card.Body style={{ textAlign: "center" }}>
+        <div className="fw-bold">{interest.name}</div>
+      </Card.Body>
+
       <Card.Footer>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Button variant="outline-danger" onClick={() => deleteInterest(interest._id)}>
-            Delete
+            <DeleteIcon fontSize="20px" />
           </Button>
         </div>
       </Card.Footer>

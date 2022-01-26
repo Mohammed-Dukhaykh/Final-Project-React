@@ -4,16 +4,11 @@ import { useParams } from "react-router-dom"
 import Profile from "../pages/Profile"
 import JobsContext from "../utils/JobsContext"
 import EditEducationModel from "./EditEducationModel"
-import mom from "react-moment"
-import Moment from "react-moment"
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 
-function EducationCell(props) {
+function EducationCell2(props) {
   const { educationItem } = props
-  const { deleteEducation } = useContext(JobsContext)
   const [show, setShow] = useState(false)
-
+  const { deleteEducation } = useContext(JobsContext)
   return (
     <>
       <Card.Body style={{ textAlign: "center" }}>
@@ -23,23 +18,21 @@ function EducationCell(props) {
         <Card.Text>
           {educationItem.degree} {educationItem.field}{" "}
         </Card.Text>
-        <Card.Title>Duration</Card.Title>
+        <Card.Title>Date</Card.Title>
         <Card.Text>
-          <p>
-            <Moment format="YYYY">{educationItem.start}</Moment>
-            -
-            <Moment format="YYYY">{educationItem.end}</Moment>
-          </p>
+          {educationItem.start}
+          <h5>To</h5>
+          {educationItem.start}
         </Card.Text>
       </Card.Body>
 
       <Card.Footer>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Button onClick={() => setShow(true)} variant="outline-primary" style={{ marginRight: "10px" }}>
-          <EditIcon fontSize="20px" />
+            Edit
           </Button>
           <Button variant="outline-danger" onClick={() => deleteEducation(educationItem._id)}>
-           <DeleteIcon fontSize="20px" />
+            Delete
           </Button>
         </div>
       </Card.Footer>
@@ -49,4 +42,4 @@ function EducationCell(props) {
   )
 }
 
-export default EducationCell
+export default EducationCell2

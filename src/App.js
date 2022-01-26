@@ -1,5 +1,5 @@
 import "./App.css"
-import { Route, Routes, useNavigate } from "react-router-dom"
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { toast, ToastContainer } from "react-toastify"
@@ -25,9 +25,14 @@ import Followers from "./pages/Followers"
 import ProfileWatch from "./pages/ProfileWatch"
 import JobsInterest from "./pages/JobsInterest"
 import ProfileJobsApply from "./pages/ProfileJobsApply"
-import ProfilePost from "./pages/ProfilePost"
-import AddPost from "./pages/AddPost"
 import UserProfile from "./pages/UserProfile"
+import Jobs from "./pages/Jobs"
+import OneJob from "./pages/OneJob"
+import firebase from "./utils/firebase"
+import UserFollowing from "./pages/UserFollowing"
+import UserFollowers from "./pages/UserFollowers"
+import CreateCompany from "./pages/CreateCompany"
+import JobsRecommend from "./pages/JobsRecommend"
 
 function App() {
   const [users, setUsers] = useState([])
@@ -91,6 +96,38 @@ function App() {
     })
     setProfile(response.data)
   }
+  const editProfile = async e => {
+    try {
+      e.preventDefault()
+      const form = e.target
+      let AvatarUrl
+      if (form.elements.avatar.files[0]){
+      const avatarImage = form.elements.avatar.files[0]
+      const avatarRef = firebase.storage().ref("photo").child(`${avatarImage.lastModified}-${avatarImage.name}`)
+      await avatarRef.put(avatarImage)
+      AvatarUrl = await avatarRef.getDownloadURL()
+      } else{
+        AvatarUrl = form.elements.avatar.id
+      }
+      const userBody = {
+        firstName: form.elements.firstName.value,
+        lastName: form.elements.lastName.value,
+        password: form.elements.password.value,
+        avatar: AvatarUrl,
+      }
+      await axios.put("http://localhost:5000/api/auth/profile", userBody, {
+        headers: {
+          Authorization: localStorage.tokenEmployment,
+        },
+      })
+      getProfile()
+      getUsers()
+      toast.success("The Profile is Edit")
+    } catch (error) {
+      if (error.response) toast.error(error.response.data)
+      else console.log(error)
+    }
+  }
   const login = async e => {
     try {
       e.preventDefault()
@@ -123,12 +160,16 @@ function App() {
     try {
       e.preventDefault()
       const form = e.target
+      const avatarImage = form.elements.avatar.files[0]
+      const avatarRef = firebase.storage().ref("photo").child(`${avatarImage.lastModified}-${avatarImage.name}`)
+      await avatarRef.put(avatarImage)
+      const AvatarUrl = await avatarRef.getDownloadURL()
       const userBody = {
         firstName: form.elements.firstName.value,
         lastName: form.elements.lastName.value,
         email: form.elements.email.value,
         password: form.elements.password.value,
-        avatar: form.elements.avatar.value,
+        avatar: AvatarUrl,
       }
       const response = await axios.post("http://localhost:5000/api/auth/signup", userBody)
       toast.success(response.data)
@@ -216,6 +257,7 @@ function App() {
       })
       getCompany()
       getJobs()
+      getUsers()
       toast.success("The Job Progress is Change")
     } catch (error) {
       if (error.response) toast.error(error.response.data)
@@ -226,10 +268,15 @@ function App() {
     e.preventDefault()
     try {
       const form = e.target
+      const jobImage = form.elements.poster.files[0]
+      const jobRef = firebase.storage().ref("photo").child(`${jobImage.lastModified}-${jobImage.name}`)
+      await jobRef.put(jobImage)
+      const jobUrl = await jobRef.getDownloadURL()
       const jobBody = {
         title: form.elements.title.value,
         description: form.elements.description.value,
-        poster: form.elements.poster.value,
+        poster: jobUrl,
+        jobField: form.elements.interest.value,
       }
       await axios.post("http://localhost:5000/api/jobs", jobBody, {
         headers: {
@@ -238,6 +285,7 @@ function App() {
       })
       getJobs()
       getCompany()
+      navigate("/company-jobs")
       toast.success("The Job is Added")
     } catch (error) {
       if (error.response) toast.error(error.response.data)
@@ -274,6 +322,7 @@ function App() {
       getCompany()
       getJobs()
       toast.success("The Qusetion is Added")
+      form.reset()
     } catch (error) {
       if (error.response) toast.error(error.response.data)
       else console.log(error)
@@ -284,10 +333,14 @@ function App() {
     try {
       e.preventDefault()
       const form = e.target
+      const jobImage = form.elements.poster.files[0]
+      const jobRef = firebase.storage().ref("photo").child(`${jobImage.lastModified}-${jobImage.name}`)
+      await jobRef.put(jobImage)
+      const jobUrl = await jobRef.getDownloadURL()
       const jobBody = {
         title: form.elements.title.value,
         description: form.elements.description.value,
-        poster: form.elements.poster.value,
+        poster: jobUrl,
       }
       await axios.put(`http://localhost:5000/api/jobs/${jobId}`, jobBody, {
         headers: {
@@ -309,6 +362,7 @@ function App() {
           Authorization: localStorage.tokenEmployment,
         },
       })
+      getUsers()
       getCompany()
       getJobs()
       getProfile()
@@ -327,6 +381,7 @@ function App() {
       })
       getProfile()
       getPosts()
+      getUsers()
       toast.success(response.data)
     } catch (error) {
       if (error.response) toast.error(error.response.data)
@@ -337,8 +392,17 @@ function App() {
     try {
       e.preventDefault()
       const form = e.target
+      let AvatarUrl
+      if (form.elements.photo.files[0]) {
+        const avatarImage = form.elements.photo.files[0]
+        const avatarRef = firebase.storage().ref("photo").child(`${avatarImage.lastModified}-${avatarImage.name}`)
+        await avatarRef.put(avatarImage)
+        AvatarUrl = await avatarRef.getDownloadURL()
+      } else {
+        AvatarUrl = form.elements.photo.id
+      }
       const postBody = {
-        photo: form.elements.photo.value,
+        photo: AvatarUrl,
         description: form.elements.description.value,
       }
       const response = await axios.put(`http://localhost:5000/api/posts/company/${postId}`, postBody, {
@@ -373,8 +437,12 @@ function App() {
     try {
       e.preventDefault()
       const form = e.target
+      const avatarImage = form.elements.photo.files[0]
+      const avatarRef = firebase.storage().ref("photo").child(`${avatarImage.lastModified}-${avatarImage.name}`)
+      await avatarRef.put(avatarImage)
+      const AvatarUrl = await avatarRef.getDownloadURL()
       const postBody = {
-        photo: form.elements.photo.value,
+        photo: AvatarUrl,
         description: form.elements.description.value,
       }
       const response = await axios.post(`http://localhost:5000/api/posts/company`, postBody, {
@@ -391,7 +459,6 @@ function App() {
     }
   }
   const AddEducation = async e => {
-    console.log("slslssl")
     try {
       e.preventDefault()
       const form = e.target
@@ -409,7 +476,7 @@ function App() {
       })
       toast.success("The Education is Added")
       getProfile()
-      getEducations()
+      getUsers()
     } catch (error) {
       if (error.response) toast.error(error.response.data)
       else console.log(error)
@@ -534,6 +601,7 @@ function App() {
       })
       getProfile()
       getSkills()
+      getUsers()
       toast.success("The Skill is Added")
     } catch (error) {
       if (error.response) toast.error(error.response.data)
@@ -688,8 +756,12 @@ function App() {
     try {
       e.preventDefault()
       const form = e.target
+      const avatarImage = form.elements.photo.files[0]
+      const avatarRef = firebase.storage().ref("photo").child(`${avatarImage.lastModified}-${avatarImage.name}`)
+      await avatarRef.put(avatarImage)
+      const AvatarUrl = await avatarRef.getDownloadURL()
       const postBody = {
-        photo: form.elements.photo.value,
+        photo: AvatarUrl,
         description: form.elements.description.value,
       }
       await axios.post("http://localhost:5000/api/posts", postBody, {
@@ -706,6 +778,146 @@ function App() {
       else console.log(error)
     }
   }
+  const getOneProfile = async userId => {
+    try {
+      await axios.get(`http://localhost:5000/api/auth/profile/${userId}`, {
+        headers: {
+          Authorization: localStorage.tokenEmployment,
+        },
+      })
+      getUsers()
+      getProfile()
+    } catch (error) {
+      if (error.response) toast.error(error.response.data)
+      else console.log(error)
+    }
+  }
+
+  const applyJob = async (e, jobId) => {
+    try {
+      e.preventDefault()
+      const form = e.target
+      const skill = []
+
+      form.elements.skills.forEach(profileSkill => {
+        if (profileSkill.checked) {
+          skill.push(profileSkill.value)
+        }
+      })
+      const Resume = form.elements.cv.files[0]
+      const ResumeRef = firebase.storage().ref("resume").child(`${Resume.lastModified}-${Resume.name}`)
+      await ResumeRef.put(Resume)
+      const ResumeUrl = await ResumeRef.getDownloadURL()
+
+      const answers = []
+      const questions = form.elements.questions
+      if (questions) {
+        if (questions.forEach) {
+          questions.forEach(qustionObject => {
+            answers.push({ answer: qustionObject.value, question: qustionObject.id })
+          })
+        } else {
+          answers.push({ answer: questions.value, question: questions.id })
+        }
+      }
+      console.log(answers)
+
+      const appllyBody = {
+        phoneNumber: form.elements.phoneNumber.value,
+        skills: skill,
+        ResumeCv: ResumeUrl,
+        answers: answers,
+      }
+
+      await axios.post(`http://localhost:5000/api/jobs/apply/${jobId}`, appllyBody, {
+        headers: {
+          Authorization: localStorage.tokenEmployment,
+        },
+      })
+      getJobs()
+      getProfile()
+      getUsers()
+      getPosts()
+      toast.success("Apply Correct")
+    } catch (error) {
+      if (error.response) toast.error(error.response.data)
+      else console.log(error)
+    }
+  }
+  const formSearch = async e => {
+    e.preventDefault()
+    console.log("uujunhu")
+    const form = e.target
+    const userSearch = form.elements.userSearch.value
+    const userFound = users.find(user => `${user.firstName} ${user.lastName}` === userSearch)
+    if (!userFound) return toast.error("The User Not Found")
+    if (userFound._id != profile._id) {
+      await axios.get(`http://localhost:5000/api/auth/profile/${userFound._id}`, {
+        headers: {
+          Authorization: localStorage.tokenEmployment,
+        },
+      })
+      getUsers()
+      getProfile()
+    navigate(`/user/${userFound._id}`)
+    }
+    else {
+      return navigate(`/profile`)
+    }
+  }
+  const addResume = async e => {
+    try {
+      console.log("ubjew")
+      e.preventDefault()
+      const form = e.target
+      const Resume = form.elements.resume.files[0]
+      const ResumeRef = firebase.storage().ref("resume").child(`${Resume.lastModified}-${Resume.name}`)
+      await ResumeRef.put(Resume)
+      const ResumeUrl = await ResumeRef.getDownloadURL()
+
+      const resumeBody = {
+        resume: ResumeUrl,
+      }
+      await axios.put("http://localhost:5000/api/auth/resume", resumeBody, {
+        headers: {
+          Authorization: localStorage.tokenEmployment,
+        },
+      })
+      getProfile()
+      toast.success("The Resume is Added")
+    } catch (error) {
+      if (error.response) toast.error(error.response.data)
+      else console.log(error)
+    }
+  }
+  const createCompany = async e => {
+    try {
+      e.preventDefault()
+      const form = e.target
+      const avatarImage = form.elements.avatar.files[0]
+      const avatarRef = firebase.storage().ref("photo").child(`${avatarImage.lastModified}-${avatarImage.name}`)
+      await avatarRef.put(avatarImage)
+      const AvatarUrl = await avatarRef.getDownloadURL()
+      const companyBody = {
+        companyName: form.elements.name.value,
+        avatar: AvatarUrl,
+        commenicalNumber: form.elements.number.value,
+      }
+      await axios.post("http://localhost:5000/api/company/Add", companyBody, {
+        headers: {
+          Authorization: localStorage.tokenEmployment,
+        },
+      })
+      getCompany()
+      getProfile()
+      getUsers()
+      toast.success("The Company is Added")
+      navigate("/")
+    } catch (error) {
+      if (error.response) toast.error(error.response.data)
+      else console.log(error)
+    }
+  }
 
   const store = {
     users,
@@ -715,6 +927,7 @@ function App() {
     company,
     jobs,
     profile,
+    editProfile,
     addHR,
     addEmployee,
     deleteEmployeeHR,
@@ -748,6 +961,11 @@ function App() {
     summary,
     deleteProfilePost,
     profileAddPost,
+    getOneProfile,
+    applyJob,
+    formSearch,
+    addResume,
+    createCompany,
   }
 
   return (
@@ -755,27 +973,77 @@ function App() {
       <ToastContainer />
 
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={localStorage.tokenEmployment ? <Home /> : <Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/companyActions" element={<CompanyAction />} />
-        <Route path="/add-employees" element={<AddEmployees />} />
-        <Route path="/company-employees" element={<CompanyEmployees />} />
-        <Route path="/company-jobs" element={<CompanyJobs />} />
-        <Route path="/company-posts" element={<CompanyPosts />} />
-        <Route path="/jobs-company/:companyJob" element={<OneCompanyJob />} />
-        <Route path="/add-job" element={<AddJobs />} />
+        <Route
+          path="/companyActions"
+          element={localStorage.tokenEmployment ? <CompanyAction /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/add-employees"
+          element={localStorage.tokenEmployment ? <AddEmployees /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/company-employees"
+          element={localStorage.tokenEmployment ? <CompanyEmployees /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/company-jobs"
+          element={localStorage.tokenEmployment ? <CompanyJobs /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/company-posts"
+          element={localStorage.tokenEmployment ? <CompanyPosts /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/jobs-company/:companyJob"
+          element={localStorage.tokenEmployment ? <OneCompanyJob /> : <Navigate to="/login" />}
+        />
+        <Route path="/add-job" element={localStorage.tokenEmployment ? <AddJobs /> : <Navigate to="/login" />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/following" element={<Followwing />} />
-        <Route path="/followers" element={<Followers />} />
-        <Route path="/profileWatch" element={<ProfileWatch />} />
-        <Route path="/jobInterest" element={<JobsInterest />} />
-        <Route path="/jobsApply" element={<ProfileJobsApply />} />
-        <Route path="/profilePosts" element={<ProfilePost />} />
-        <Route path="/add-post" element={<AddPost />} />
-        <Route path="/user/:userId" element={<UserProfile />} />
-        <Route path="/email_verified/:token" element={<EmailVerified />} />
+        <Route path="/following" element={localStorage.tokenEmployment ? <Followwing /> : <Navigate to="/login" />} />
+        <Route path="/followers" element={localStorage.tokenEmployment ? <Followers /> : <Navigate to="/login" />} />
+        <Route
+          path="/profileWatch"
+          element={localStorage.tokenEmployment ? <ProfileWatch /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/jobInterest"
+          element={localStorage.tokenEmployment ? <JobsInterest /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/jobsApply"
+          element={localStorage.tokenEmployment ? <ProfileJobsApply /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/user/:userId"
+          element={localStorage.tokenEmployment ? <UserProfile /> : <Navigate to="/login" />}
+        />
+        <Route path="/jobs" element={localStorage.tokenEmployment ? <Jobs /> : <Navigate to="/login" />} />
+        <Route path="/job/:jobId" element={localStorage.tokenEmployment ? <OneJob /> : <Navigate to="/login" />} />
+        <Route
+          path="/following/:userFollow"
+          element={localStorage.tokenEmployment ? <UserFollowing /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/followers/:userFollowers"
+          element={localStorage.tokenEmployment ? <UserFollowers /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/add-company"
+          element={localStorage.tokenEmployment ? <CreateCompany /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/email_verified/:token"
+          element={localStorage.tokenEmployment ? <EmailVerified /> : <Navigate to="/login" />}
+        />
+         <Route
+          path="/job-recommend"
+          element={localStorage.tokenEmployment ? <JobsRecommend /> : <Navigate to="/login" />}
+        />
       </Routes>
+      
     </JobsContext.Provider>
   )
 }
