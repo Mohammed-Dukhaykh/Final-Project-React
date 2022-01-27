@@ -9,35 +9,12 @@ import "../JobsStyle.css"
 import { Link } from "react-router-dom"
 
 function JobsInterest() {
-  const { profile, jobFavourite } = useContext(JobsContext)
+  const { profile } = useContext(JobsContext)
   if (!profile) return null
-  let favourite
-  favourite = profile.JobsApply.map(job => job.jobId._id)
   return (
-  
     <>
       <NavbarItem />
-      {/* <Container>
-        {profile.jobInterest.map(job => (
-          <Row style={{ margin: "30px" }}>
-            <Col>
-              <img src={job.poster} class="img-fluid rounded mb-4 mb-lg-0" />
-            </Col>
-            <Col style={{ display: "flex", flexDirection: "column", justifyContent: "space-around" }}>
-              <h1>{job.title}</h1>
-              <p>{job.description}</p>
-              {!favourite.includes(job._id) ? <Button variant="success">Submit</Button> : null}
-            </Col>
-
-            <Col>
-              <Button onClick={() => jobFavourite(job._id)} variant="light">
-                <RemoveIcon />
-              </Button>
-            </Col>
-          </Row>
-        ))}
-      </Container> */}
-       {profile.jobInterest.map(job => (
+      {profile.jobInterest.map(job => (
         <section>
           <div class="container">
             <div class="row">

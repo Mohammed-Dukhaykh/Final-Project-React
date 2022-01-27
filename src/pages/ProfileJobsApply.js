@@ -6,6 +6,8 @@ import NavbarItem from "../components/Navbar"
 function ProfileJobsApply() {
     const {profile} = useContext(JobsContext)
     if (!profile) return null
+    const Application = profile.JobsApply.map(applicationId => applicationId)
+    if (Application) Application.sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated))
 
   return (
     <>
@@ -13,7 +15,7 @@ function ProfileJobsApply() {
       <section>
       <Container>
         <Card style={{ marginTop: "40px" }}>
-        {profile.JobsApply.map(job => (
+        {Application.map(job => (
           <Row style={{ margin: "30px" }}>
           
               <img src={job.jobId.poster} style={{ width: "400px", height: "350px", borderRadius: "10px" }} />

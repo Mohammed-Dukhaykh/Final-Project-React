@@ -9,7 +9,6 @@ import NavbarItem from "./components/Navbar"
 import Login from "./pages/Login"
 import Home from "./pages/Home"
 import SignUp from "./pages/Signup"
-import EmailVerified from "./pages/EmailVerified"
 import CompanyAction from "./pages/CompanyAction"
 import Sidebar from "./components/Sidebar"
 import AddEmployees from "./pages/AddEmployees"
@@ -101,12 +100,12 @@ function App() {
       e.preventDefault()
       const form = e.target
       let AvatarUrl
-      if (form.elements.avatar.files[0]){
-      const avatarImage = form.elements.avatar.files[0]
-      const avatarRef = firebase.storage().ref("photo").child(`${avatarImage.lastModified}-${avatarImage.name}`)
-      await avatarRef.put(avatarImage)
-      AvatarUrl = await avatarRef.getDownloadURL()
-      } else{
+      if (form.elements.avatar.files[0]) {
+        const avatarImage = form.elements.avatar.files[0]
+        const avatarRef = firebase.storage().ref("photo").child(`${avatarImage.lastModified}-${avatarImage.name}`)
+        await avatarRef.put(avatarImage)
+        AvatarUrl = await avatarRef.getDownloadURL()
+      } else {
         AvatarUrl = form.elements.avatar.id
       }
       const userBody = {
@@ -114,6 +113,7 @@ function App() {
         lastName: form.elements.lastName.value,
         password: form.elements.password.value,
         avatar: AvatarUrl,
+        Work: form.elements.work.value,
       }
       await axios.put("http://localhost:5000/api/auth/profile", userBody, {
         headers: {
@@ -820,7 +820,6 @@ function App() {
           answers.push({ answer: questions.value, question: questions.id })
         }
       }
-      console.log(answers)
 
       const appllyBody = {
         phoneNumber: form.elements.phoneNumber.value,
@@ -846,7 +845,6 @@ function App() {
   }
   const formSearch = async e => {
     e.preventDefault()
-    console.log("uujunhu")
     const form = e.target
     const userSearch = form.elements.userSearch.value
     const userFound = users.find(user => `${user.firstName} ${user.lastName}` === userSearch)
@@ -859,9 +857,8 @@ function App() {
       })
       getUsers()
       getProfile()
-    navigate(`/user/${userFound._id}`)
-    }
-    else {
+      navigate(`/user/${userFound._id}`)
+    } else {
       return navigate(`/profile`)
     }
   }
@@ -1035,15 +1032,10 @@ function App() {
           element={localStorage.tokenEmployment ? <CreateCompany /> : <Navigate to="/login" />}
         />
         <Route
-          path="/email_verified/:token"
-          element={localStorage.tokenEmployment ? <EmailVerified /> : <Navigate to="/login" />}
-        />
-         <Route
           path="/job-recommend"
           element={localStorage.tokenEmployment ? <JobsRecommend /> : <Navigate to="/login" />}
         />
       </Routes>
-      
     </JobsContext.Provider>
   )
 }

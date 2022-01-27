@@ -6,11 +6,6 @@ import "../JobsStyle.css"
 import JobsContext from "../utils/JobsContext"
 function Jobs() {
   const { jobs } = useContext(JobsContext)
-  // jobs.sort(function(a,b){
-  //   // Turn your strings into dates, and then subtract them
-  //   // to get a value that is either negative, positive, or zero.
-  //   return new Date(b.dateCreated) - new Date(a.dateCreated);
-  // });
   jobs.sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated))
 
   return (
@@ -36,7 +31,7 @@ function Jobs() {
         <Link to="/job-recommend" className="btn">
           <button className="job-btn-header">Jobs we recommend </button>
         </Link>
-        <Link to="/jobs" className="btn" >
+        <Link to="/jobs" className="btn">
           <button className="job-btn-header">All Jobs</button>
         </Link>
       </div>

@@ -32,13 +32,20 @@ function AddJobs() {
               </FloatingLabel>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Job Poster</Form.Label>
-                <Form.Control type="file" placeholder="Enter Job Poster" accept="image/png , image/jepg" name="poster" />
+                <Form.Control
+                  type="file"
+                  placeholder="Enter Job Poster"
+                  accept="image/png , image/jepg"
+                  name="poster"
+                />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Job Field</Form.Label>
-                {interests.map(interest => (
-                  <Form.Check type="radio" label={interest.name} value={interest._id} name="interest" />
-                ))}
+                <Form.Select aria-label="Default select example" name="interest">
+                  {interests.map(interest => (
+                    <option value={interest._id}>{interest.name}</option>
+                  ))}
+                </Form.Select>
               </Form.Group>
               <Button variant="primary" type="submit" onClick={() => setShow(true)}>
                 Submit

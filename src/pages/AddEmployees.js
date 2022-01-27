@@ -9,7 +9,7 @@ import { CssBaseline } from "@mui/material"
 
 function AddEmployees() {
     const {users} = useContext(JobsContext)
-    const newUsers = users.filter(user => user.role != "Admin" && !user.Work)
+    const newUsers = users.filter(user => user.role != "Admin" && user.Work == null)
     return ( 
         <> 
        <ToastContainer />

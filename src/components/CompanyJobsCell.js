@@ -8,7 +8,6 @@ import CompanyViewJobs from "./CompanyiewJobs"
 function CompanyJobsCell(props) {
   const { companyJob } = useParams()
   const { job  } = props
-  const [viewShow, setViewShow] = useState(false)
   const [editShow, setEditShow] = useState(false)
   const { deleteJob } = useContext(JobsContext)
 
@@ -47,7 +46,7 @@ function CompanyJobsCell(props) {
 
         <td>
           <Link to={`/jobs-company/${job._id}`}>
-            <Button variant="outline-primary" className="me-2" onClick={() => setViewShow(true)}>
+            <Button variant="outline-primary" className="me-2">
               View
             </Button>
           </Link>
@@ -58,7 +57,6 @@ function CompanyJobsCell(props) {
             Delete
           </Button>
         </td>
-        <CompanyViewJobs show={viewShow} setShow={setViewShow} job={job} />
         <CompanyEditShow show={editShow} setShow={setEditShow} job={job} />
       </tr>
     </>

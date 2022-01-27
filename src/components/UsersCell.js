@@ -7,7 +7,6 @@ import UserViewModel from "./UserViewModel"
 function UsersCell(props) {
   const { user, page } = props
   const [viewShow, setViewShow] = useState(false)
-  const [deleteShow, setDeleteShow] = useState(false)
   const { addHR, addEmployee, profile } = useContext(JobsContext)
   if (!profile) return null
   console.log(user.Work === null)

@@ -16,7 +16,6 @@ function CompanyAction() {
   if (!profile) return null
 
   const myCompany = company.find(oneCompany => oneCompany._id === profile.Work._id)
-  console.log(myCompany)
   return (
     <>
       <ToastContainer />

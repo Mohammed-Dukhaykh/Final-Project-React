@@ -8,13 +8,10 @@ function Home() {
   return (
     <>
       <NavbarItem />
-     
+
       <PageHeader />
 
-     
-       <Posts />
-      {/* <HomeProfile />
-      <JobHome />  */}
+      <Posts />
     </>
   )
 }

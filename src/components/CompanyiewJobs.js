@@ -7,7 +7,6 @@ import UsersApplyCell from "./UsersApplyCell"
 
 function CompanyViewJobs(props) {
   const { show, setShow, job } = props
-  console.log(job.usersApply.progress)
   return (
     <>
       <Modal show={show} size="lg" onHide={() => setShow(false)}>

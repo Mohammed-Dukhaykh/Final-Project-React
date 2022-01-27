@@ -31,9 +31,9 @@ function JobsRecommend() {
         </div>
       </header>
       <div style={{ display: "flex", justifyContent: "center", gap: "20px" }}>
-        {/* <Link to="/job-recommend" className="btn">
+        <Link to="/job-recommend" className="btn">
           <button className="job-btn-header">Jobs we recommend </button>
-        </Link> */}
+        </Link>
         <Link to="/jobs" className="btn">
           <button className="job-btn-header">All Jobs</button>
         </Link>
@@ -62,7 +62,7 @@ function JobsRecommend() {
                         src={job.owner.avatar}
                         data-holder-rendered="true"
                       />{" "}
-                      {/* <h5 class="company"></h5> */}
+                     
                       <h5 class="company">{job.jobField.name}</h5>
                       <p>{job.description}</p>
                     </div>
