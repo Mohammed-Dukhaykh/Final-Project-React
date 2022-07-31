@@ -112,7 +112,7 @@ function Profile() {
                   <a href={profile.Resume} target="_blank">
                     {" "}
                     <img
-                      src="https://scontent.fmed1-1.fna.fbcdn.net/v/t39.30808-6/272127238_2146471475505744_5581813376169249917_n.jpg?_nc_cat=106&ccb=1-5&_nc_sid=730e14&_nc_ohc=DqVdYSNJhhIAX8-htfD&_nc_ht=scontent.fmed1-1.fna&oh=00_AT9Z3njWAiFtBzbfonsYM6HI-xzDMnPI51qflZ0rEf9B3A&oe=61F32BEA"
+                      src="https://scontent.fruh4-1.fna.fbcdn.net/v/t39.30808-6/272127238_2146471475505744_5581813376169249917_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=730e14&_nc_ohc=oxnFwE5RFiAAX_Iplcn&_nc_ht=scontent.fruh4-1.fna&oh=00_AT_sVnDmimr70tNg2MG7m-qsORfDOOpU0deNA6NdAWR_Sg&oe=62EC576A"
                       alt=""
                       height="70px"
                       width="60px"

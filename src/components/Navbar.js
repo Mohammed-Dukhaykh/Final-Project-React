@@ -12,7 +12,7 @@ function NavbarItem() {
         <Navbar.Brand href="#home">
           {" "}
           <img
-            src="https://scontent.fmed1-1.fna.fbcdn.net/v/t39.30808-6/269675384_2145909032228655_4239034493093183794_n.jpg?_nc_cat=100&ccb=1-5&_nc_sid=730e14&_nc_ohc=5AY_xFtNEmEAX9k_rqH&_nc_ht=scontent.fmed1-1.fna&oh=00_AT_dgJ8XjhFBAE1ZYzbYzRroWLWLwLgEmTVX5sW0H4Z_Ag&oe=61F1D6B9"
+            src="https://scontent.fruh4-6.fna.fbcdn.net/v/t39.30808-6/272161159_2145943825558509_5355786000198811349_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=730e14&_nc_ohc=fPkLtVjKrfEAX90Tmov&tn=TieEhei_jtPOUJxM&_nc_ht=scontent.fruh4-6.fna&oh=00_AT99fT7wfunEghoGTski3bLis5Dqdp-2m5BZQMI4SHmDoA&oe=62EC652D"
             alt=""
             style={{ height: "30px", width: "50px" }}
           />
@@ -39,7 +39,7 @@ function NavbarItem() {
               </Link>
             ) : null}
 
-            <Form style={{ marginRight: "40px", display: "flex"  }} onSubmit={formSearch}>
+            <Form style={{ marginRight: "40px", display: "flex" }} onSubmit={formSearch}>
               <FormControl
                 type="search"
                 placeholder="Search"
